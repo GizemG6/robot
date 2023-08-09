@@ -1,0 +1,16 @@
+{
+  "name": "My Dev Container",
+  "dockerFile": "Dockerfile",
+  "extensions": [
+    "ms-vscode.vscode-typescript"
+  ],
+  "settings": {
+    "terminal.integrated.shell.linux": "/bin/bash"
+  },
+  "postCreateCommand": "npm install",
+  "forwardPorts": [3000],
+  "mounts": [
+    "source=/path/to/local/code,target=/workspace,type=bind"
+  ]
+}
+

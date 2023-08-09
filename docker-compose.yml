@@ -1,0 +1,60 @@
+version: '3.8'  # The version of the Docker Compose syntax
+
+services:
+  web:  # Service name
+    image: nginx:latest  # Docker image to use for this service
+    ports:
+      - "80:80"  # Expose port 80 on the host and map it to port 80 in the container
+
+  database:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: mysecretpassword
+      MYSQL_DATABASE: mydatabase
+
+volumes:
+  data_volume:  # Define a named volume
+  
+  
+  
+version: '3'
+services:
+  ros2_core:
+    image: ros:foxy
+    container_name: ros2_core
+    tty: true
+    volumes:
+      - ./ros2_workspace:/ros2_ws
+    command: ros2 run demo_nodes_cpp talker
+
+  ros2_listener:
+    image: ros:foxy
+    container_name: ros2_listener
+    tty: true
+    volumes:
+      - ./ros2_workspace:/ros2_ws
+    command: ros2 run demo_nodes_cpp listener
+    
+    
+version: "3"
+
+services:
+ talker:
+   image: osrf/ros:eloquent-desktop
+   command: ros2 run demo_nodes_cpp talker
+ listener:
+   image: osrf/ros:eloquent-desktop
+   command: ros2 run demo_nodes_cpp listener
+   depends_on:
+     - talker
+
+  dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/ros2_ws
+      - /ros2_ws/build/
+      - /ros2_ws/install/
+      - /ros2_ws/log/
+
