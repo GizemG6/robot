@@ -58,3 +58,18 @@ services:
       - /ros2_ws/install/
       - /ros2_ws/log/
 
+  version: '3'
+
+
+services:
+  ros2:
+    image: ros:humble-ros-base
+    container_name: my_ros
+    command: /bin/bash
+    volumes:
+      - ./src:/workspace/src
+    network_mode: host
+    environment:
+      - "DISPLAY"
+      - "QT_X11_NO_MITSHM=1"
+
